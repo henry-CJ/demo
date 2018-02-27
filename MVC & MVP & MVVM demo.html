@@ -1,0 +1,64 @@
+<!-- MVC -->
+<div id="A" onclick="A.event.change"></div>
+<script>
+    let component = new Component();
+    let A = component.extend({
+        $el: document.getElementById('A'),
+        model: {
+            text: 'ViewA 渲染完成'
+        },
+        view(data) {
+            let tpl = '<span>{{text}}</span>';
+            let html = render(tpl, data);
+            this.$el.innerHTML = html;
+        },
+        controller() {
+            let self = this;
+            self.view(self.model);
+            self.event['change'] = function () {
+                self.model.text = '新的 ViewA 渲染完成';
+                self.view(self.model);
+            }
+        }
+    });
+</script>
+
+<!-- MVP -->
+<div id="A" onclick="A.event.change"></div>
+<script>
+    let component = new Component();
+    let A = component.extend({
+        $el: document.getElementById('A'),
+        model: {
+            text: 'ViewA 渲染完成'
+        },
+        view: '<span>{{text}}</span>',
+        presenter() {
+            let self = this;
+            let html = render(self.view, self.model);
+            self.$el.innerHTML = html;            
+            self.event['change'] = function () {
+                self.model.text = '新的 ViewA 渲染完成';
+                self.view(self.model);
+            }
+        }
+    });
+</script>
+
+<!-- MVVM -->
+<div id="A" q-on="click: change">
+    <span q-html="text"></span>
+</div>
+<script>
+    let viewModel = new VM({
+        $el: document.getElementById('A'),
+        data: {
+            text: 'ViewA 渲染完成'
+        },
+        method: {
+            change() {
+                this.text = '新的 ViewA 渲染完成';
+            }
+        }
+    });
+</script>
