@@ -32,14 +32,15 @@
         model: {
             text: 'ViewA 渲染完成'
         },
-        view: '<span>{{text}}</span>',
+        view: '<span id="showText">{{text}}</span>',
         presenter() {
             let self = this;
             let html = render(self.view, self.model);
             self.$el.innerHTML = html;            
             self.event['change'] = function () {
                 self.model.text = '新的 ViewA 渲染完成';
-                self.view(self.model);
+                let html = render(self.view, self.model);
+                self.$el.innerHTML = html;  
             }
         }
     });
