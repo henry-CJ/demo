@@ -26,8 +26,8 @@
 <div id="A" onclick="A.event.change"></div>
 <script>
     let A = new app({
-        model() {
-            this.text = 'ViewA 渲染完成';
+        model: {
+            text: 'ViewA 渲染完成'
         },
         view(data) {
             var tpl = '<span>{{text}}</span>';
@@ -48,7 +48,7 @@
     <span v-html="text"></span>
 </div>
 <script>
-    let A = new VM({
+    new VM({
         model: {
             text: 'ViewA 渲染完成'
         },
