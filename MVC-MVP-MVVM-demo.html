@@ -1,24 +1,23 @@
 <!-- MVC -->
 <div id="A" onclick="A.event.change"></div>
 <script>
-    let component = new Component();
-    let A = component.extend({
-        $el: document.getElementById('A'),
-        model: {
-            text: 'ViewA 渲染完成'
+    var A = new app({
+        model() {
+            this.text = 'ViewA 渲染完成';
+            this.setValue = function (key, val) {
+                this[key] = val;
+                this.view.render(this);
+            };
         },
         view(data) {
-            let tpl = '<span>{{text}}</span>';
-            let html = render(tpl, data);
-            this.$el.innerHTML = html;
+            var tpl = '<span>{{text}}</span>';
+            this.render = function (tpl, data) {};
         },
         controller() {
             let self = this;
-            self.view(self.model);
             self.event['change'] = function () {
-                self.model.text = '新的 ViewA 渲染完成';
-                self.view(self.model);
-            }
+                self.model.setValue('text', '新的 ViewA 渲染完成');
+            };
         }
     });
 </script>
@@ -26,37 +25,34 @@
 <!-- MVP -->
 <div id="A" onclick="A.event.change"></div>
 <script>
-    let component = new Component();
-    let A = component.extend({
-        $el: document.getElementById('A'),
-        model: {
-            text: 'ViewA 渲染完成'
+    let A = new app({
+        model() {
+            this.text = 'ViewA 渲染完成';
         },
-        view: '<span id="showText">{{text}}</span>',
+        view(data) {
+            var tpl = '<span>{{text}}</span>';
+            this.render = function (tpl, data) {};
+        },
         presenter() {
             let self = this;
-            let html = render(self.view, self.model);
-            self.$el.innerHTML = html;            
             self.event['change'] = function () {
                 self.model.text = '新的 ViewA 渲染完成';
-                let html = render(self.view, self.model);
-                self.$el.innerHTML = html;  
-            }
+                self.view.render(self.model);
+            };
         }
     });
 </script>
 
 <!-- MVVM -->
-<div id="A" q-on="click: change">
-    <span q-html="text"></span>
+<div id="A" v-on:click="change">
+    <span v-html="text"></span>
 </div>
 <script>
-    let viewModel = new VM({
-        $el: document.getElementById('A'),
-        data: {
+    let A = new VM({
+        model: {
             text: 'ViewA 渲染完成'
         },
-        method: {
+        methods: {
             change() {
                 this.text = '新的 ViewA 渲染完成';
             }
