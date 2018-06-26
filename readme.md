@@ -12,5 +12,5 @@
 
 ## phaser-games
 
-根据网上教程实现的一些小游戏，[教程戳我](http://www.lessmilk.com/)
+根据网上教程实现的一些基于 phase H5 游戏引擎的小游戏，[教程戳我](http://www.lessmilk.com/)
 
